@@ -34,7 +34,7 @@ pipeline {
                                     sourceFiles: "${JAR_PATH}",
                                     removePrefix: 'target/',
                                     remoteDirectory: "${DEPLOY_PATH}",
-                                    //execCommand: 'sudo systemctl restart helloworld.service'
+                                    execCommand: 'sudo systemctl restart episante.service'
                                 )
                             ],
                             usePty: false,
