@@ -1,5 +1,4 @@
 package Episante.back.Controller;
-
 import Episante.back.Models.Disponibilite;
 import Episante.back.Models.JourSemaine;
 import Episante.back.Models.Medecin;
@@ -49,12 +48,12 @@ public class MedecinController {
     @PostMapping("/creer-en-masse")
     public ResponseEntity<List<Medecin>> creerMedecinsEnMasse(@RequestParam int nombre) {
         List<Medecin> medecins = new ArrayList<>();
-        Specialite[] specialites = Specialite.values(); // Enum des spécialités
+        Specialite[] specialites = Specialite.values();
 
         for (int i = 0; i < nombre; i++) {
             Medecin medecin = new Medecin();
-            medecin.setNom(genererNomAleatoire()); // Génération d'un nom aléatoire
-            medecin.setSpecialite(specialites[random.nextInt(specialites.length)]); // Spécialité aléatoire
+            medecin.setNom(genererNomAleatoire());
+            medecin.setSpecialite(specialites[random.nextInt(specialites.length)]);
             medecins.add(medecin);
         }
 

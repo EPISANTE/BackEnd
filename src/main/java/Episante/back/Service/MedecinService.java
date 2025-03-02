@@ -1,11 +1,7 @@
 package Episante.back.Service;
-
 import Episante.back.Models.*;
-import Episante.back.Repository.IPatientrepository;
 import Episante.back.Repository.MedecinRepository;
 import Episante.back.Repository.DisponibiliteRepository;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
