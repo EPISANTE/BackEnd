@@ -14,7 +14,7 @@ public class Medecin {
 
     private String nom;
 
-    @Enumerated(EnumType.STRING) // Pour stocker l'enum comme une chaîne de caractères dans la base de données
+    @Enumerated(EnumType.STRING)
     private Specialite specialite;
 
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

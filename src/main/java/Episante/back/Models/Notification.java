@@ -10,11 +10,11 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date; // Date de la notification
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "rendezVous_id", nullable = false)
-    private RendezVous rendezVous; // Liée à un rendez-vous
+    private RendezVous rendezVous;
 
     public Long getId() {
         return id;

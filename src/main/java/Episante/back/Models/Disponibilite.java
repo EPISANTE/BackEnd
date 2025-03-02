@@ -3,11 +3,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Entity
 public class Disponibilite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
