@@ -17,24 +17,36 @@ import java.util.Optional;
     public class PatientService {
 
 
-
         @Autowired
-        private IPatientrepository patientDao ;
+        private IPatientrepository patientDao;
 
         public void add(Patient patient) {
             patientDao.save(patient);
         }
 
-        public List<Patient> getAllPatients() {return patientDao.findAll();}
-        public Optional<Patient> getById(long id) {return patientDao.findById(id);}
-        public List<Patient> getPatientByName(String name) {return patientDao.findByNom(name);}
-        public List<Patient> getPatientByPrenom(String prenom) {return patientDao.findByPrenom(prenom);}
+        public List<Patient> getAllPatients() {
+            return patientDao.findAll();
+        }
+
+        public Optional<Patient> getById(long id) {
+            return patientDao.findById(id);
+        }
+
+        public List<Patient> getPatientByName(String name) {
+            return patientDao.findByNom(name);
+        }
+
+        public List<Patient> getPatientByPrenom(String prenom) {
+            return patientDao.findByPrenom(prenom);
+        }
 
         public void deletePatient(Optional<Patient> patient) {
             Patient patientEntity = patient.orElseThrow(() ->
                     new IllegalArgumentException("Utilisateur introuvable"));
             patientDao.delete(patientEntity);
         }
+
+
         public void Inscription(Patient patient) {
             if (patientDao.existsByEmail(patient.getEmail())) {
                 throw new IllegalArgumentException("Cet email est déjà utilisé !");
@@ -44,12 +56,15 @@ import java.util.Optional;
             }
             patientDao.save(patient);
         }
+
+
         public Patient getByEmail(String email) {
             if (!patientDao.existsByEmail(email)) {
                 throw new IllegalArgumentException("Cet email n'existe pas!");
             }
             return patientDao.findByEmail(email);
         }
+
 
         public void Login(String email, String password) {
             Patient patient = patientDao.findByEmail(email);
@@ -76,12 +91,12 @@ import java.util.Optional;
                 throw new IllegalArgumentException("Les valeurs de poids, taille ou âge sont invalides.");
             }
 
-            // Vérifier que les valeurs sont positives
+
             if (poids <= 0 || taille <= 0 || age <= 0) {
                 throw new IllegalArgumentException("Les valeurs de poids, taille et âge doivent être positives.");
             }
 
-            // Calculer l'IMC
+
             double imc = poids / (taille * taille);
 
             double seuilInsuffisance = 18.5;
@@ -129,4 +144,53 @@ import java.util.Optional;
             return bilan;
         }
 
+        public String nivStress(List<Integer> symptomesRessenties, List<Integer> symptomesPercus, Patient patient) {
+
+            if (symptomesRessenties.isEmpty() || symptomesPercus.isEmpty()) {
+                throw new IllegalArgumentException("Les listes sont vides.");
+            }
+
+            double sr = 0;
+            double sp = 0;
+
+            for (int symptome : symptomesRessenties) {
+                sr += symptome;
+            }
+            for (int symptome : symptomesRessenties) {
+                sp += symptome;
+            }
+
+
+            double st = (sr / symptomesRessenties.size() + sp / symptomesPercus.size()) * 10;
+
+            String bilan;
+            if (st < 25) {
+                bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes en décontracté. " +
+                                "Nous vous conseillons Nous vous conseillons de garder ce rythme de vie et de surveiller votre alimentation et pratiquer plus de sport.",
+                        patient.getPrenom(), patient.getNom(), st
+                );
+            } else if (st < 50) {
+                bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes légèrement stressé." +
+                                "Nous vous conseillons de prendre du temps pour vous détendre et de pratiquer des activités relaxantes",
+                        patient.getPrenom(), patient.getNom(), st
+                );
+            } else if (st < 75) {
+                bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes modérément stressé. " +
+                                "Nous vous conseillons de consulter un professionnel de santé et de pratiquer des techniques de relaxation.",
+                        patient.getPrenom(), patient.getNom(), st
+                );
+
+            } else {
+                bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes très stressé. " +
+                                "Nous vous conseillons de consulter un professionnel de santé immédiatement.",
+                        patient.getPrenom(), patient.getNom(), st
+                );
+
+            }
+
+            return bilan;
+        }
     }
+
+
+
