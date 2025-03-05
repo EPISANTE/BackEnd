@@ -5,6 +5,7 @@ import Episante.back.Models.Medecin;
 import Episante.back.Models.Periode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public interface DisponibiliteRepository extends JpaRepository<Disponibilite, Lo
         List<Disponibilite> findByJour(JourSemaine jour);
 
         List<Disponibilite> findByMedecinIdAndJour(Long medecinId, JourSemaine jour);
-    }
+
+
+}
+
 
 

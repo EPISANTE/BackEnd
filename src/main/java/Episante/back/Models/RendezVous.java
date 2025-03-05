@@ -15,6 +15,11 @@ public class RendezVous {
         @ManyToOne
         @JoinColumn(name = "patient_id")
         private Patient patient;
+        @ManyToOne
+        @JoinColumn(name = "medecin_id", nullable = false)
+        private Medecin medecin;
+        @Enumerated(EnumType.STRING)
+        private StatutRendezVous statut;
 
 
 }

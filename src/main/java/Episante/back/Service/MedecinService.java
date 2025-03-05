@@ -83,11 +83,12 @@ public class MedecinService {
                     JourSemaine jour = JourSemaine.valueOf(date.getDayOfWeek().name());
                     Periode periode = periodes[random.nextInt(periodes.length)];
 
-                    if (disponibiliteRepository.findByMedecinAndJourAndPeriode(medecin, jour, periode).isEmpty()) {
+                    if (disponibiliteRepository.findByMedecinAndJourAndPeriode(medecin,jour, periode).isEmpty()) {
                         Disponibilite dispo = new Disponibilite(jour, periode, medecin);
                         disponibiliteRepository.saveAndFlush(dispo);
                         disponibilitesCetteSemaine++;
                     }
+
                 }
 
                 // Passer au jour suivant
