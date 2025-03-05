@@ -47,7 +47,7 @@ public class RendezVousService {
             throw new RuntimeException("Ce créneau est déjà réservé !");
         }
 
-        // Création du rendez-vous
+
         RendezVous rendezVous = new RendezVous();
         rendezVous.setDateHeure(disponibilite.getDateHeure());
         rendezVous.setPatient(patient);
@@ -56,7 +56,6 @@ public class RendezVousService {
 
         rendezVous = rendezVousRepository.save(rendezVous);
 
-        // Associer le rendez-vous au créneau
         disponibilite.setRendezVous(rendezVous);
         disponibiliteRepository.save(disponibilite);
 
@@ -67,7 +66,6 @@ public class RendezVousService {
 
         return rendezVous;
     }
-
 
     @Scheduled(cron = "0 0 9 * * ?")
     public void envoyerNotifications() {
@@ -81,7 +79,15 @@ public class RendezVousService {
             notification.setDate(LocalDate.now());
             notification.setRendezVous(rdv);
             notificationRepository.save(notification);
-            System.out.println(" Notification envoyée pour le rendez-vous du " + rdv.getDateHeure());
+
+
+            String message = "Bonjour " + rdv.getPatient().getNom() + ",\n"
+                    + "Rappel : Vous avez un rendez-vous avec le Dr. " + rdv.getMedecin().getNom()
+                    + " demain à " + rdv.getDateHeure() + ".";
+            smsService.envoyerSms(rdv.getPatient().getTelephone(), message);
+
+            System.out.println(" SMS de rappel envoyé pour le rendez-vous du " + rdv.getDateHeure());
         }
     }
+
 }
