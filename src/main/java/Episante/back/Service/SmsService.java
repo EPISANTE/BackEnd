@@ -26,6 +26,6 @@ public class SmsService {
                         message)
                 .create();
 
-        System.out.println("✅ SMS envoyé à " + numeroDestinataire + " : " + sms.getSid());
+        System.out.println(" SMS envoyé à " + numeroDestinataire + " : " + sms.getSid());
     }
 }
