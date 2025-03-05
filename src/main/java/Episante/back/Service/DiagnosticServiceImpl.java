@@ -1,55 +1,109 @@
 package Episante.back.Service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class DiagnosticServiceImpl implements DiagnosticService {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Map<String, SessionState> sessions = new ConcurrentHashMap<>();
 
-    private boolean askQuestion(String question) {
-        System.out.println(question);
-        String answer = scanner.nextLine().trim().toLowerCase();
-        while (!answer.equals("yes") && !answer.equals("no")) {
-            System.out.println("Please answer 'yes' or 'no':");
-            answer = scanner.nextLine().trim().toLowerCase();
-        }
-        return answer.equals("yes");
+    private Map<String, String> decisionTree;
+
+    @PostConstruct
+    public void initializeDecisionTree() {
+        decisionTree = new HashMap<>();
+        decisionTree.put("START", "Do you have a fever? (yes/no)");
+
+        decisionTree.put("Do you have a fever? (yes/no):yes", "Do you have fatigue or muscle pain? (yes/no)");
+        decisionTree.put("Do you have a fever? (yes/no):no", "Insufficient symptoms for a diagnosis. Please consult a doctor if you feel unwell.");
+
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):yes", "Do you have a cough? (yes/no)");
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):no", "Diagnosis: Possible Common Cold (Rhume)");
+
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):yes,Do you have a cough? (yes/no):yes", "Diagnosis: Possible Flu (Grippe)");
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):yes,Do you have a cough? (yes/no):no", "Do you have a runny nose? (yes/no)");
+
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):yes,Do you have a cough? (yes/no):no,Do you have a runny nose? (yes/no):yes", "Diagnosis: Possible Common Cold (Rhume)");
+        decisionTree.put("Do you have a fever? (yes/no):yes,Do you have fatigue or muscle pain? (yes/no):yes,Do you have a cough? (yes/no):no,Do you have a runny nose? (yes/no):no", "Diagnosis: Possible COVID-19");
+
+    }
+
+    private static class SessionState {
+        String currentQuestion = "START";
+        final Map<String, String> answers = new HashMap<>();
     }
 
     @Override
-    public void startDiagnosis() {
-        System.out.println("Welcome to the Medical Diagnostic System");
-        System.out.println("I'll ask you some questions to help identify your illness.");
+    public String startSession() {
+        String sessionId = UUID.randomUUID().toString();
+        sessions.put(sessionId, new SessionState());
+        return sessionId;
+    }
 
-        boolean hasFever = askQuestion("Do you have fever? yes/no");
-
-        if (hasFever) {
-            boolean hasFatigueOrMusclePain = askQuestion("Do you have fatigue or muscle pain? (yes/no)");
-
-            if (hasFatigueOrMusclePain) {
-                boolean hasCough = askQuestion("Do you have a cough? (yes/no)");
-
-                if (hasCough) {
-                    System.out.println("Diagnosis: Possible Flu (Grippe)");
-                } else {
-                    boolean hasRunnyNose = askQuestion("Do you have a runny nose? (yes/no)");
-
-                    if (hasRunnyNose) {
-                        System.out.println("Diagnosis: Possible Common Cold (Rhume)");
-                    } else {
-                        System.out.println("Diagnosis: Possible COVID-19");
-                    }
-                }
-
-            }else {
-                System.out.println("Diagnosis: Possible Common Cold (Rhume)");
-            }
-        }else {
-            System.out.println("Insufficient symptoms for a diagnosis. Please consult a doctor if you feel unwell.");
+    @Override
+    public String getNextQuestion(String sessionId) {
+        SessionState session = sessions.get(sessionId);
+        if (session == null) {
+            System.out.println("Session not found");
         }
-        scanner.close();
+
+        String nextStepKey = session.currentQuestion;
+        if ("START".equals(nextStepKey)) {
+            return decisionTree.get(nextStepKey);
+        }
+        return null;
+    }
+
+    @Override
+    public String processAnswer(String sessionId, String answer) {
+        SessionState session = sessions.get(sessionId);
+        if (session == null) {
+            System.out.println("Session not found");
+        }
+
+        // Validate answer
+        if (!"yes".equalsIgnoreCase(answer) && !"no".equalsIgnoreCase(answer)) {
+            return "Invalid answer. Please answer 'yes' or 'no'.";
+        }
+
+        StringBuilder pathBuilder = new StringBuilder();
+        pathBuilder.append(session.currentQuestion);
+        if (!"START".equals(session.currentQuestion)) {
+            session.answers.put(session.currentQuestion, answer);
+        }
+        String currentPath = session.answers.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> entry.getKey() + ":" + entry.getValue())
+                .collect(Collectors.joining(","));
+
+        if (!currentPath.isEmpty()) {
+            currentPath = currentPath + "," + session.currentQuestion + ":" + answer;
+        } else {
+
+            currentPath = session.currentQuestion + ":" + answer;
+        }
+
+        String nextStep = decisionTree.get(currentPath);
+        if (nextStep == null) {
+            return "An error occurred or the diagnosis path is incomplete.";
+        }
+
+
+        if (nextStep.startsWith("Diagnosis:")) {
+            sessions.remove(sessionId);
+            return nextStep;
+        } else {
+
+            session.currentQuestion = currentPath;
+            return nextStep;
+
+        }
     }
 }
