@@ -24,8 +24,5 @@ public class RendezVousController {
         return rendezVousService.saveRendezVous(rendezVous);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRendezVous(@PathVariable Long id) {
-        rendezVousService.deleteRendezVous(id);
-    }
+
 }

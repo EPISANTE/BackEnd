@@ -25,7 +25,5 @@ public class RendezVousService {
         return rendezVousDao.save(rendezVous);
     }
 
-    public void deleteRendezVous(Long id) {
-        rendezVousDao.deleteById(id);
-    }
+
 }
