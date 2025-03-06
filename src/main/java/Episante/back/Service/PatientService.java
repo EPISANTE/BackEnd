@@ -97,7 +97,7 @@ import java.util.Optional;
             }
 
 
-            double imc = poids / (taille * taille);
+            double imc = poids / Math.pow(taille, 2);
 
             double seuilInsuffisance = 18.5;
             double seuilNormal = 24.9;
@@ -159,7 +159,7 @@ import java.util.Optional;
 
 
 
-//            double st = (sr) ;
+
 
             String bilan;
             if (sr < 5) {
