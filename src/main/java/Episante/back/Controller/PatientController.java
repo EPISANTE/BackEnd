@@ -19,10 +19,10 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:5173")
 
 @RestController
-@RequestMapping("/api/patients") // www/localhost:9090/api/patient/5
+@RequestMapping("/api/patients")
 public class PatientController {
 
-    // using loggers better than Sout , for debuging , errors , ....
+
     private static final Logger logger = LoggerFactory.getLogger(PatientController.class);
 
 
@@ -36,7 +36,7 @@ public class PatientController {
     }
 
 
-    //using the ResponseEntity to see the status of the request
+
     @PostMapping("/register")
     public void createPatient(@Valid @RequestBody Patient patient) {
         patientService.Inscription(patient);
