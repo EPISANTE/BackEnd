@@ -109,10 +109,12 @@ public class PatientController {
     }
 
     @GetMapping("/stress")
-    public ResponseEntity<PatientBilanDTO> stressLvl(@Valid @RequestParam String email, @Valid @RequestParam List<Integer> sr , @Valid @RequestParam List<Integer> sp) {
+    public ResponseEntity<PatientBilanDTO> stressLvl(
+            @RequestParam String email,
+            @RequestParam List<Integer> sr){
         try {
             Patient patient = patientService.getByEmail(email);
-            String bilan = patientService.nivStress(sr , sp, patient);
+            String bilan = patientService.nivStress(sr , patient);
             PatientBilanDTO bilanDTO = new PatientBilanDTO(patient.getNom(), patient.getPrenom(), bilan);
             return ResponseEntity.status(HttpStatus.OK).body(bilanDTO);
         } catch (Exception e) {
