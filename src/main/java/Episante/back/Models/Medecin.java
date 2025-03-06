@@ -19,4 +19,8 @@ public class Medecin {
 
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Disponibilite> disponibilites;
+
+    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RendezVous> rendezVous;
+
 }

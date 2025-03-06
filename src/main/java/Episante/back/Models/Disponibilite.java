@@ -1,17 +1,21 @@
 package Episante.back.Models;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Disponibilite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDate date; // Ajout de la propriété date
 
     @Enumerated(EnumType.STRING)
     private JourSemaine jour;
@@ -24,4 +28,13 @@ public class Disponibilite {
     @JoinColumn(name = "medecin_id")
     private Medecin medecin;
 
+    @OneToOne(mappedBy = "disponibilite", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RendezVous rendezVous;
+
+    public Disponibilite(LocalDate date, JourSemaine jour, Periode periode, Medecin medecin) {
+        this.date = date;
+        this.jour = jour;
+        this.periode = periode;
+        this.medecin = medecin;
+    }
 }

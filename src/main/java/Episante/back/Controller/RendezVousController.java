@@ -3,6 +3,7 @@ package Episante.back.Controller;
 import Episante.back.Models.RendezVous;
 import Episante.back.Service.RendezVousService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,18 +15,27 @@ public class RendezVousController {
     @Autowired
     private RendezVousService rendezVousService;
 
-    @GetMapping
-    public List<RendezVous> getAllRendezVous() {
-        return rendezVousService.getAllRendezVous();
+    @PostMapping("/reserver")
+    public ResponseEntity<RendezVous> reserverRendezVous(
+            @RequestParam Long disponibiliteId,
+            @RequestParam Long patientId) {
+        RendezVous rendezVous = rendezVousService.reserverRendezVous(disponibiliteId, patientId);
+        return ResponseEntity.ok(rendezVous);
     }
 
-    @PostMapping
-    public RendezVous createRendezVous(@RequestBody RendezVous rendezVous) {
-        return rendezVousService.saveRendezVous(rendezVous);
+
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<RendezVous>> getRendezVousParPatient(@PathVariable Long patientId) {
+        List<RendezVous> rdvs = rendezVousService.getRendezVousParPatient(patientId);
+        return ResponseEntity.ok(rdvs);
+    }
+    @PutMapping("/annuler/{rdvId}")
+    public ResponseEntity<String> annulerRendezVous(@PathVariable Long rdvId) {
+        rendezVousService.annulerRendezVous(rdvId);
+        return ResponseEntity.ok("Rendez-vous annulé avec succès.");
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRendezVous(@PathVariable Long id) {
-        rendezVousService.deleteRendezVous(id);
-    }
 }
+
+

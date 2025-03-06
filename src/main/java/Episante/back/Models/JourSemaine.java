@@ -1,5 +1,5 @@
 package Episante.back.Models;
 
 public enum JourSemaine {
-    LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }
