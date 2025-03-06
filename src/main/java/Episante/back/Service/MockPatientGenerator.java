@@ -3,6 +3,7 @@ package Episante.back.Service;
 import Episante.back.Models.Patient;
 import Episante.back.Models.Sexe;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,12 @@ public class MockPatientGenerator {
     private static int compteurMail = 1;
 
 
+
+    private static void setCompteurMail() {
+        compteurMail++;
+    }
+
+    private static DecimalFormat df = new DecimalFormat("#.#");
     private static final double imcMoy = 24.5;
     private static final double eTypeImc = 3.0;
     private static final int tailleMoyH = 175;
@@ -42,7 +49,6 @@ public class MockPatientGenerator {
 
 
     private static String generateUniqueEmail() {
-        compteurMail += 1;
         return "patient" + compteurMail + "@episante.com";
     }
 
@@ -72,14 +78,15 @@ public class MockPatientGenerator {
             if (patient.getSexe() == Sexe.HOMME) {
                 patient.setPrenom(PRENOMSH[rand.nextInt(PRENOMSH.length)]);
                 patient.setTaille(String.valueOf(heightH));
-                patient.setPoids(String.valueOf(weightH));
+                patient.setPoids(df.format(weightH));
             } else {
                 patient.setPrenom(PRENOMSF[rand.nextInt(PRENOMSF.length)]);
                 patient.setTaille(String.valueOf(heightF));
-                patient.setPoids(String.valueOf(weightF));
+                patient.setPoids(df.format(weightF));
             }
             patientService.add(patient);
             patients.add(patient);
+            setCompteurMail();
         }
         return patients;
     }
