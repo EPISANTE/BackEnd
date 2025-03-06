@@ -97,7 +97,7 @@ import java.util.Optional;
             }
 
 
-            double imc = poids / (taille * taille);
+            double imc = poids / Math.pow(taille, 2);
 
             double seuilInsuffisance = 18.5;
             double seuilNormal = 24.9;
@@ -144,52 +144,51 @@ import java.util.Optional;
             return bilan;
         }
 
-        public String nivStress(List<Integer> symptomesRessenties, List<Integer> symptomesPercus, Patient patient) {
+        public String nivStress(List<Integer> symptomesRessenties, Patient patient) {
 
-            if (symptomesRessenties.isEmpty() || symptomesPercus.isEmpty()) {
-                throw new IllegalArgumentException("Les listes sont vides.");
+            if (symptomesRessenties.isEmpty() ) {
+                throw new IllegalArgumentException("Les liste sont vide.");
             }
 
             double sr = 0;
-            double sp = 0;
+
 
             for (int symptome : symptomesRessenties) {
                 sr += symptome;
             }
-            for (int symptome : symptomesRessenties) {
-                sp += symptome;
-            }
 
 
-            double st = (sr / symptomesRessenties.size() + sp / symptomesPercus.size()) * 10;
+
+
 
             String bilan;
-            if (st < 25) {
+            if (sr < 5) {
                 bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes en décontracté. " +
                                 "Nous vous conseillons Nous vous conseillons de garder ce rythme de vie et de surveiller votre alimentation et pratiquer plus de sport.",
-                        patient.getPrenom(), patient.getNom(), st
+                        patient.getPrenom(), patient.getNom(), sr
                 );
-            } else if (st < 50) {
+            } else if (sr < 10) {
                 bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes légèrement stressé." +
                                 "Nous vous conseillons de prendre du temps pour vous détendre et de pratiquer des activités relaxantes",
-                        patient.getPrenom(), patient.getNom(), st
+                        patient.getPrenom(), patient.getNom(), sr
                 );
-            } else if (st < 75) {
+            } else if (sr < 14) {
                 bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes modérément stressé. " +
                                 "Nous vous conseillons de consulter un professionnel de santé et de pratiquer des techniques de relaxation.",
-                        patient.getPrenom(), patient.getNom(), st
+                        patient.getPrenom(), patient.getNom(), sr
                 );
 
             } else {
                 bilan = String.format("Bonjour %s %s, votre niveau de stress est %.2f. Vous êtes très stressé. " +
                                 "Nous vous conseillons de consulter un professionnel de santé immédiatement.",
-                        patient.getPrenom(), patient.getNom(), st
+                        patient.getPrenom(), patient.getNom(), sr
                 );
 
             }
 
             return bilan;
         }
+
     }
 
 
