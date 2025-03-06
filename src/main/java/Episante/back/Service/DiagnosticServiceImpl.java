@@ -68,7 +68,7 @@ public class DiagnosticServiceImpl implements DiagnosticService {
             System.out.println("Session not found");
         }
 
-        // Validate answer
+        // Validate answer, again this is not AI :), not every comment explain things is an AI
         if (!"yes".equalsIgnoreCase(answer) && !"no".equalsIgnoreCase(answer)) {
             return "Invalid answer. Please answer 'yes' or 'no'.";
         }
