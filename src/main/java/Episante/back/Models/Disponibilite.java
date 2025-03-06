@@ -24,9 +24,4 @@ public class Disponibilite {
     @JoinColumn(name = "medecin_id")
     private Medecin medecin;
 
- public Disponibilite(JourSemaine jour, Periode periode, Medecin medecin) {
-        this.jour = jour;
-        this.periode = periode;
-        this.medecin = medecin;
-    }
 }

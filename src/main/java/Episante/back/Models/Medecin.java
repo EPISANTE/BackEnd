@@ -14,7 +14,7 @@ public class Medecin {
 
     private String nom;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //je stocke ici enum comme chaine caractere
     private Specialite specialite;
 
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

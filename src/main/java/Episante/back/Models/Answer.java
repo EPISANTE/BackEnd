@@ -19,10 +19,12 @@ public class Answer {
 
     private String answerText;
 
-    public Answer() {}
+    public Answer() {
+    }
 
     public Answer(Question question, String answerText) {
         this.question = question;
         this.answerText = answerText;
     }
+
 }
