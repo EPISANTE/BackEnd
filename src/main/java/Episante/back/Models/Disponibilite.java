@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class Disponibilite {
     @Enumerated(EnumType.STRING)
     private Periode periode;
 
-
+    private LocalDate date;
     private LocalDateTime dateHeure;
 
     @ManyToOne
@@ -32,11 +33,11 @@ public class Disponibilite {
     @JoinColumn(name = "rendez_vous_id")
     private RendezVous rendezVous;
 
-    public Disponibilite(JourSemaine jour, Periode periode, Medecin medecin) {
+    public Disponibilite(LocalDate date, JourSemaine jour, Periode periode, Medecin medecin) {
 
         this.jour = jour;
         this.periode = periode;
         this.medecin = medecin;
-
+        this.date = date;
     }
 }

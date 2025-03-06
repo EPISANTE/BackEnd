@@ -90,4 +90,21 @@ public class RendezVousService {
         }
     }
 
+
+    public List<RendezVous> getRendezVousParPatient(Long patientId) {
+        return rendezVousRepository.findByPatientId(patientId);
+    }
+    @Transactional
+    public void annulerRendezVous(Long rdvId) {
+        Optional<RendezVous> rdvOpt = rendezVousRepository.findById(rdvId);
+
+        if (rdvOpt.isEmpty()) {
+            throw new RuntimeException("Rendez-vous introuvable !");
+        }
+
+        RendezVous rdv = rdvOpt.get();
+        rdv.setStatut(StatutRendezVous.ANNULE);
+        rendezVousRepository.save(rdv);
+    }
+
 }

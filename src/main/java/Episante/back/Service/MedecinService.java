@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,45 +64,32 @@ public class MedecinService {
     @Transactional
     public void genererDisponibilitesAleatoires() {
         List<Medecin> medecins = medecinRepository.findAll();
-        if (medecins.isEmpty()) {
-            throw new RuntimeException("Aucun medecin trouvé, impossible de generer des disponibilites !");
-        }
+        if (medecins.isEmpty()) throw new RuntimeException("Pas de medecins !");
 
-        Random random = new Random();
-        JourSemaine[] jours = JourSemaine.values();
         Periode[] periodes = Periode.values();
-
-        LocalDate today = LocalDate.now();
-        LocalDate endDate = today.plusDays(30);
+        LocalDate aujourdhui = LocalDate.now();
 
         for (Medecin medecin : medecins) {
-            int disponibilitesCetteSemaine = 0;
-            LocalDate date = today;
+            for (int semaine = 0; semaine < 3; semaine++) {
+                int nbDispo = 0;
 
-            while (date.isBefore(endDate)) {
-                if (disponibilitesCetteSemaine < 3) {  // Max 3 disponibilites par semaine
+                while (nbDispo < 3) {
+                    LocalDate date = aujourdhui.plusWeeks(semaine).plusDays(random.nextInt(7));
                     JourSemaine jour = JourSemaine.valueOf(date.getDayOfWeek().name());
-                    Periode periode = periodes[random.nextInt(periodes.length)];
 
-                    if (disponibiliteRepository.findByMedecinAndJourAndPeriode(medecin,jour, periode).isEmpty()) {
-                        Disponibilite dispo = new Disponibilite(jour, periode, medecin);
-                        disponibiliteRepository.saveAndFlush(dispo);
-                        disponibilitesCetteSemaine++;
+                    if (jour != JourSemaine.SATURDAY && jour != JourSemaine.SUNDAY) {
+                        Periode periode = periodes[random.nextInt(periodes.length)];
+
+                        if (disponibiliteRepository.findByMedecinAndDateAndPeriode(medecin, date, periode).isEmpty()) {
+                            Disponibilite dispo = new Disponibilite(date, jour, periode, medecin);
+                            disponibiliteRepository.saveAndFlush(dispo);
+                            nbDispo++;
+                        }
                     }
-
-                }
-
-                // Passer au jour suivant
-                date = date.plusDays(1);
-                if (date.getDayOfWeek() == DayOfWeek.MONDAY) {
-                    disponibilitesCetteSemaine = 0; // Reinitialiser chaque semaine
                 }
             }
         }
     }
-
-
-
     public List<Disponibilite> getDisponibilites(Long medecinId, JourSemaine jour) {
 
         if (medecinId != null && jour != null) {
