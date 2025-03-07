@@ -2,20 +2,23 @@ package Episante.back.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
-import java.time.LocalDate;
 @Data
 @Entity
 public class Notification {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date;
+    private String message;
+    private LocalDateTime dateCreation;
 
     @ManyToOne
-    @JoinColumn(name = "rendezVous_id", nullable = false)
-    private RendezVous rendezVous;
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
+    @ManyToOne
+    @JoinColumn(name = "rendezvous_id")
+    private RendezVous rendezVous;
 }

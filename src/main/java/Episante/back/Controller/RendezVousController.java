@@ -3,10 +3,13 @@ package Episante.back.Controller;
 import Episante.back.Models.RendezVous;
 import Episante.back.Service.RendezVousService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/rendezvous")
@@ -17,25 +20,25 @@ public class RendezVousController {
 
     @PostMapping("/reserver")
     public ResponseEntity<RendezVous> reserverRendezVous(
-            @RequestParam Long disponibiliteId,
-            @RequestParam Long patientId) {
-        RendezVous rendezVous = rendezVousService.reserverRendezVous(disponibiliteId, patientId);
-        return ResponseEntity.ok(rendezVous);
+            @RequestBody Map<String, Object> requestBody) {
+        try {
+            Long disponibiliteId = Long.valueOf(requestBody.get("disponibiliteId").toString());
+            String patientEmail = requestBody.get("patientEmail").toString();
+
+            RendezVous rendezVous = rendezVousService.reserverRendezVous(disponibiliteId, patientEmail);
+            return ResponseEntity.ok(rendezVous);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-
-
-    @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<RendezVous>> getRendezVousParPatient(@PathVariable Long patientId) {
-        List<RendezVous> rdvs = rendezVousService.getRendezVousParPatient(patientId);
-        return ResponseEntity.ok(rdvs);
+        @GetMapping("/rendezvs")
+        public ResponseEntity<List<RendezVous>> getRendezVousByPatientEmail(@RequestParam String email) {
+            try {
+                List<RendezVous> rendezVous = rendezVousService.findByPatientEmail(email);
+                return ResponseEntity.ok(rendezVous);
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        }
     }
-    @PutMapping("/annuler/{rdvId}")
-    public ResponseEntity<String> annulerRendezVous(@PathVariable Long rdvId) {
-        rendezVousService.annulerRendezVous(rdvId);
-        return ResponseEntity.ok("Rendez-vous annulé avec succès.");
-    }
-
-}
-
-

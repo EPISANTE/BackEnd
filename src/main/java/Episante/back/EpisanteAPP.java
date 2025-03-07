@@ -20,16 +20,16 @@ public class EpisanteAPP implements CommandLineRunner {
 		SpringApplication.run(EpisanteAPP.class, args);
 	}
 
-	@Override
+@Override
 	public void run(String... args) {
-		List<Patient> patients = MockPatientGenerator.generatePatients(10, patientService);
-
-		patients.forEach(p -> {
-			System.out.println("Nom: " + p.getNom());
-			System.out.println("Prenom: " + p.getPrenom());
-			System.out.println("Email: " + p.getEmail());
-			System.out.println("Taille/Poids: " + p.getTaille() + "cm/" + p.getPoids() + "kg");
-			System.out.println("-------------------");
-		});
+//		List<Patient> patients = MockPatientGenerator.generatePatients(10, patientService);
+//
+//		patients.forEach(p -> {
+//			System.out.println("Nom: " + p.getNom());
+//			System.out.println("Prenom: " + p.getPrenom());
+//			System.out.println("Email: " + p.getEmail());
+//			System.out.println("Taille/Poids: " + p.getTaille() + "cm/" + p.getPoids() + "kg");
+//			System.out.println("-------------------");
+//		});
 	}
 }

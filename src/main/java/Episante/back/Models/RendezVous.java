@@ -1,5 +1,6 @@
 package Episante.back.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class RendezVous {
 
         @ManyToOne
         @JoinColumn(name = "patient_id")
+        @JsonIgnore
         private Patient patient;
 
         @ManyToOne
@@ -28,4 +30,6 @@ public class RendezVous {
         @OneToOne
         @JoinColumn(name = "disponibilite_id")
         private Disponibilite disponibilite;
+
+
 }

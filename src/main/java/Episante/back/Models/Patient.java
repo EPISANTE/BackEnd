@@ -1,11 +1,13 @@
 package Episante.back.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -32,6 +34,7 @@ public class Patient {
     private H_Medical h_m;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<RendezVous> rendezVous;
+    @JsonIgnore
+    private List<RendezVous> rendezVous = new ArrayList<>();;
 
 }

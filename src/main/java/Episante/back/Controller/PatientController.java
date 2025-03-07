@@ -121,7 +121,15 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
-
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Patient> getPatientByEmail(@PathVariable String email) {
+        try {
+            Patient patient = patientService.getByEmail(email);
+            return ResponseEntity.ok(patient);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(null); // Retourne 404 si l'email n'existe pas
+        }
+    }
 
 
 }
