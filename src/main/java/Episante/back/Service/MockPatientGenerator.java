@@ -75,11 +75,11 @@ public class MockPatientGenerator {
             if (patient.getSexe() == Sexe.HOMME) {
                 patient.setPrenom(PRENOMSH[rand.nextInt(PRENOMSH.length)]);
                 patient.setTaille(String.valueOf(heightH));
-                patient.setPoids(df.format(weightH));
+                patient.setPoids(String.valueOf(weightH));
             } else {
                 patient.setPrenom(PRENOMSF[rand.nextInt(PRENOMSF.length)]);
                 patient.setTaille(String.valueOf(heightF));
-                patient.setPoids(df.format(weightF));
+                patient.setPoids(String.valueOf(weightF));
             }
             patientService.add(patient);
             patients.add(patient);
