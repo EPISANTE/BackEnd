@@ -22,7 +22,7 @@ public class RendezVousService {
     private PatientRepository patientRepository;
 
     @Autowired
-    private NotificationService notificationService; // Injectez le NotificationService
+    private NotificationService notificationService;
 
     @Transactional
     public RendezVous reserverRendezVous(Long disponibiliteId, String patientEmail) {
@@ -61,7 +61,7 @@ public class RendezVousService {
         disponibilite.setRendezVous(rendezVous);
         disponibiliteRepository.save(disponibilite);
 
-        // Créer une notification après la réservation réussie
+
         notificationService.creerNotification(rendezVous);
 
         return rendezVous;

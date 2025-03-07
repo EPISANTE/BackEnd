@@ -35,6 +35,6 @@ public class Patient {
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<RendezVous> rendezVous = new ArrayList<>();;
+    private List<RendezVous> rendezVous = new ArrayList<>();
 
 }

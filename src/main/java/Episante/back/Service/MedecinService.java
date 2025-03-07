@@ -4,9 +4,7 @@ import Episante.back.Repository.MedecinRepository;
 import Episante.back.Repository.DisponibiliteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 

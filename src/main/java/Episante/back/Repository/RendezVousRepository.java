@@ -3,7 +3,6 @@ package Episante.back.Repository;
 import Episante.back.Models.Medecin;
 import Episante.back.Models.Patient;
 import Episante.back.Models.RendezVous;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
