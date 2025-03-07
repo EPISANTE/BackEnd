@@ -100,10 +100,19 @@ public class PatientController {
     public ResponseEntity<PatientBilanDTO> generatePatientBilan(@Valid @RequestParam String email) {
         try {
             Patient patient = patientService.getByEmail(email);
+            // Add logging here to verify patient was found
+            System.out.println("Patient found: " + patient.getEmail());
+
             String bilan = patientService.BilanS(patient);
+            // Add logging here to verify bilan was generated
+            System.out.println("Bilan generated: " + bilan);
+
             PatientBilanDTO bilanDTO = new PatientBilanDTO(patient.getNom(), patient.getPrenom(), bilan);
             return ResponseEntity.status(HttpStatus.OK).body(bilanDTO);
         } catch (Exception e) {
+            // Log the specific exception
+            e.printStackTrace();
+            System.err.println("Error in /bilan: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }

@@ -12,7 +12,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:5174",
                         "http://localhost:5173",
-                        "http://172.31.249.181:3000"
+                        "http://172.31.253.98:80"
                 )
                 .allowedMethods("*");
     }
