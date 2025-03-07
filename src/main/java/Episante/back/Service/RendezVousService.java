@@ -29,19 +29,15 @@ public class RendezVousService {
 
     @Autowired
     private SmsService smsService;
+    private PatientService patientService;
 
 
-        @Transactional
-        public RendezVous reserverRendezVous(Long disponibiliteId, Long patientId) {
+//        @Transactional
+        public RendezVous reserverRendezVous(Long disponibiliteId, String email) {
             Optional<Disponibilite> dispoOpt = disponibiliteRepository.findById(disponibiliteId);
-            Optional<Patient> patientOpt = patientRepository.findById(patientId);
-
-            if (dispoOpt.isEmpty() || patientOpt.isEmpty()) {
-                throw new RuntimeException("Disponibilite ou patient introuvable !");
-            }
-
+            Patient patient = patientService.getByEmail(email);
             Disponibilite disponibilite = dispoOpt.get();
-            Patient patient = patientOpt.get();
+
 
             if (disponibilite.getRendezVous() != null) {
                 throw new RuntimeException("Ce creneau est deja reserve !");
@@ -65,7 +61,7 @@ public class RendezVousService {
             String message = "Bonjour " + patient.getNom() + ", votre rendez-vous avec Dr. "
                     + disponibilite.getMedecin().getNom() + " est confirme pour le "
                     + rendezVous.getDateHeure() + ".";
-            smsService.envoyerSms(patient.getTelephone(), message);
+//            smsService.envoyerSms(patient.getTelephone(), message);
 
             return rendezVous;
         }

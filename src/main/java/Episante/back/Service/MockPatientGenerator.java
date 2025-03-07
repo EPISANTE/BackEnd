@@ -19,12 +19,12 @@ public class MockPatientGenerator {
         compteurMail++;
     }
 
-    private static DecimalFormat df = new DecimalFormat("#.#");
+    private static final DecimalFormat df = new DecimalFormat("#.#");
     private static final double imcMoy = 24.5;
     private static final double eTypeImc = 3.0;
     private static final int tailleMoyH = 175;
     private static final int tailleMoyF = 165;
-    private static final int eTypeTaille = 15;
+    private static final int eTypeTaille = 5;
 
 
     private static final String[] PRENOMSH = {"Anir", "Ayoub","Julien", "Lucas", "Lamine", "Pablo", "Paul", "Antoine"};
@@ -58,15 +58,12 @@ public class MockPatientGenerator {
 
     public static List<Patient> generatePatients(int nombre, PatientService patientService) {
         List<Patient> patients = new ArrayList<>();
-
-
-        double imc = nextGaussian(imcMoy, eTypeImc, 16.0, 40.0);
-        int heightH = (int) nextGaussian(tailleMoyH, eTypeTaille, 150, 210);
-        int heightF = (int) nextGaussian(tailleMoyF, eTypeTaille, 140, 190);
-        double weightH = imc * Math.pow((heightH / 100.0), 2);
-        double weightF = imc * Math.pow((heightF / 100.0), 2);
-
         for(int i = 0; i < nombre; i++) {
+            double imc = nextGaussian(imcMoy, eTypeImc, 16.0, 40.0);
+            int heightH = (int) nextGaussian(tailleMoyH, eTypeTaille, 160, 210);
+            int heightF = (int) nextGaussian(tailleMoyF, eTypeTaille, 140, 190);
+            double weightH = imc * Math.pow((heightH / 100.0), 2);
+            double weightF = imc * Math.pow((heightF / 100.0), 2);
             Patient patient = new Patient();
             patient.setNom(NOMS[rand.nextInt(NOMS.length)]);
             patient.setAge(String.valueOf(rand.nextInt(55) + 16));

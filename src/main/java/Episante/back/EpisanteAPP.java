@@ -22,7 +22,7 @@ public class EpisanteAPP implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		List<Patient> patients = MockPatientGenerator.generatePatients(10, patientService);
+		List<Patient> patients = MockPatientGenerator.generatePatients(100, patientService);
 
 		patients.forEach(p -> {
 			System.out.println("Nom: " + p.getNom());
@@ -32,4 +32,4 @@ public class EpisanteAPP implements CommandLineRunner {
 			System.out.println("-------------------");
 		});
 	}
-}
+	}

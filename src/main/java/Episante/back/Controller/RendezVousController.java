@@ -18,8 +18,8 @@ public class RendezVousController {
     @PostMapping("/reserver")
     public ResponseEntity<RendezVous> reserverRendezVous(
             @RequestParam Long disponibiliteId,
-            @RequestParam Long patientId) {
-        RendezVous rendezVous = rendezVousService.reserverRendezVous(disponibiliteId, patientId);
+            @RequestParam String email) {
+        RendezVous rendezVous = rendezVousService.reserverRendezVous(disponibiliteId, email);
         return ResponseEntity.ok(rendezVous);
     }
 
