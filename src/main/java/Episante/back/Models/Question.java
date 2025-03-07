@@ -17,5 +17,14 @@ public class Question {
     private String options;
     private String unit;
 
+    public Question() {
+    }
+
+    public Question(String questionText, String questionType, String options,String unit) {
+        this.questionText = questionText;
+        this.questionType = questionType;
+        this.options = options;
+        this.unit = unit;
+    }
 
 }
