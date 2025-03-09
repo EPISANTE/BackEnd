@@ -1,5 +1,6 @@
 package Episante.back.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Disponibilite {
     @JsonIgnore
     @JoinColumn(name = "medecin_id")
     private Medecin medecin;
+
 
     @OneToOne(mappedBy = "disponibilite", cascade = CascadeType.ALL, orphanRemoval = true)
     private RendezVous rendezVous;

@@ -1,5 +1,6 @@
 package Episante.back.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Data;
@@ -14,11 +15,13 @@ public class Medecin {
 
     private String nom;
 
-    @Enumerated(EnumType.STRING) //je stocke ici enum comme chaine caractere
+    @Enumerated(EnumType.STRING)
     private Specialite specialite;
 
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Disponibilite> disponibilites;
+
+
 
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RendezVous> rendezVous;
