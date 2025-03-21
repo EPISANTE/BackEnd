@@ -24,8 +24,34 @@ public class RendezVousService {
     @Autowired
     private NotificationService notificationService;
 
+    /**
+     * Réserve un rendez-vous médical pour un patient sur un créneau horaire spécifique.
+     * <p>
+     * Cette méthode effectue une réservation transactionnelle avec les étapes suivantes :
+     * <ol>
+     *   <li>Vérification de l'existence du créneau et du patient</li>
+     *   <li>Contrôle des contraintes métier (doublon de rendez-vous, créneau déjà réservé)</li>
+     *   <li>Création et persistance du rendez-vous</li>
+     *   <li>Mise à jour du statut du créneau</li>
+     *   <li>Déclenchement d'une notification au patient</li>
+     * </ol>
+     *
+     * @param disponibiliteId Identifiant unique du créneau horaire disponible (non null)
+     * @param patientEmail Email unique identifiant le patient (format validé)
+     * @return Le rendez-vous confirmé avec ses métadonnées complètes
+     * @throws RuntimeException avec message explicite dans les cas suivants :
+     *           <ul>
+     *             <li>Code 01 : Créneau introuvable</li>
+     *             <li>Code 02 : Patient non enregistré</li>
+     *             <li>Code 03 : Rendez-vous existant avec le même médecin</li>
+     *             <li>Code 04 : Créneau déjà réservé par un autre patient</li>
+     *           </ul>
+     * @Transactional Garantit l'intégrité des données par rollback automatique en cas d'erreur
+     * @see NotificationService#creerNotification(RendezVous) pour le flux de notification
+     */
     @Transactional
     public RendezVous reserverRendezVous(Long disponibiliteId, String patientEmail) {
+
         Optional<Disponibilite> dispoOpt = disponibiliteRepository.findById(disponibiliteId);
         Optional<Patient> patientOpt = patientRepository.findByEmail(patientEmail);
 
