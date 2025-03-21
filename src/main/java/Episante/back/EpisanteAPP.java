@@ -1,5 +1,4 @@
 package Episante.back;
-
 import Episante.back.Models.Patient;
 import Episante.back.Service.MockPatientGenerator;
 import Episante.back.Service.PatientService;
@@ -9,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
+
 
 @SpringBootApplication
 public class EpisanteAPP implements CommandLineRunner {
@@ -22,6 +22,7 @@ public class EpisanteAPP implements CommandLineRunner {
 
 @Override
 	public void run(String... args) {
+
 //		List<Patient> patients = MockPatientGenerator.generatePatients(10, patientService);
 //
 //		patients.forEach(p -> {

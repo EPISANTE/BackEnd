@@ -16,8 +16,6 @@ public class NotificationService {
 
     @Autowired
     private INotificationRepository notificationRepository;
-   @Autowired
-   private INotificationRepository rendezVousRepository;
 
     public void creerNotification(RendezVous rendezVous) {
         Notification notification = new Notification();
