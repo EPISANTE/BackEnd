@@ -15,4 +15,8 @@ public enum Specialite {
     public static Specialite fromString(String value) {
         return valueOf(value.toUpperCase());
     }
+
+    public String getLibelle() {
+        return name();
+    }
 }

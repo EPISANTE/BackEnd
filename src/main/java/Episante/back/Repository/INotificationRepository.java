@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface INotificationRepository extends JpaRepository<Notification, Long> {
@@ -17,5 +18,6 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
     @Query("DELETE FROM Notification n WHERE n.rendezVous.id = :rendezVousId")
     void deleteByRendezVousId(@Param("rendezVousId") Long rendezVousId);
 
-    List<Notification> findByPatientEmailOrderByDateCreationDesc(String email);
+    
+
 }

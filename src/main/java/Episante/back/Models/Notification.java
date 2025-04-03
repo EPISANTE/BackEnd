@@ -23,4 +23,7 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "rendezvous_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private RendezVous rendezVous;
+
+    public void setDateRdv(LocalDateTime dateHeure) {
+    }
 }
