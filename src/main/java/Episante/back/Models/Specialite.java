@@ -10,5 +10,9 @@ public enum Specialite {
     OPHTALMOLOGIE,
     NEUROLOGIE,
     ENDOCRINOLOGIE,
-    PSYCHIATRIE
+    PSYCHIATRIE;
+
+    public static Specialite fromString(String value) {
+        return valueOf(value.toUpperCase());
+    }
 }

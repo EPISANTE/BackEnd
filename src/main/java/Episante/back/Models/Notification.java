@@ -18,7 +18,9 @@ public class Notification {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+
+
     @ManyToOne
-    @JoinColumn(name = "rendezvous_id")
+    @JoinColumn(name = "rendezvous_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private RendezVous rendezVous;
 }

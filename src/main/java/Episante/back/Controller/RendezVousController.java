@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping("/api/rendezvous")
@@ -41,4 +39,19 @@ public class RendezVousController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         }
+
+
+
+    @DeleteMapping("/annuler/{id}")
+    public ResponseEntity<String> annulerRendezVous(@PathVariable Long id) {
+        try {
+            rendezVousService.annulerRendezVous(id);
+            return ResponseEntity.ok("Rendez-vous annulé avec succès");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
+
+
+}
+

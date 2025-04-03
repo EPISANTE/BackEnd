@@ -1,9 +1,9 @@
 package Episante.back.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
@@ -16,12 +16,11 @@ public class RendezVous {
         private LocalDateTime dateHeure;
 
         @ManyToOne
-        @JoinColumn(name = "patient_id")
         @JsonIgnore
         private Patient patient;
 
         @ManyToOne
-        @JoinColumn(name = "medecin_id", nullable = false)
+        @JsonIgnoreProperties({"disponibilites", "rendezVous"})
         private Medecin medecin;
 
         @Enumerated(EnumType.STRING)
@@ -30,6 +29,4 @@ public class RendezVous {
         @OneToOne
         @JoinColumn(name = "disponibilite_id")
         private Disponibilite disponibilite;
-
-
 }

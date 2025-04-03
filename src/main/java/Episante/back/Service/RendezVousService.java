@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class RendezVousService {
@@ -17,6 +17,9 @@ public class RendezVousService {
 
     @Autowired
     private DisponibiliteRepository disponibiliteRepository;
+
+    @Autowired
+    private INotificationRepository notificationRepository;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -51,38 +54,26 @@ public class RendezVousService {
      */
     @Transactional
     public RendezVous reserverRendezVous(Long disponibiliteId, String patientEmail) {
-
-        Optional<Disponibilite> dispoOpt = disponibiliteRepository.findById(disponibiliteId);
-        Optional<Patient> patientOpt = patientRepository.findByEmail(patientEmail);
-
-        if (dispoOpt.isEmpty()) {
-            throw new RuntimeException("Disponibilité introuvable !");
-        }
-
-        if (patientOpt.isEmpty()) {
-            throw new RuntimeException("Patient introuvable !");
-        }
-
-        Disponibilite disponibilite = dispoOpt.get();
-        Patient patient = patientOpt.get();
-
-        List<RendezVous> rendezVousExistants = rendezVousRepository.findByPatientAndMedecin(patient, disponibilite.getMedecin());
-        if (!rendezVousExistants.isEmpty()) {
-            throw new RuntimeException("Vous avez déjà un rendez-vous avec ce médecin.");
-        }
+        Disponibilite disponibilite = disponibiliteRepository.findById(disponibiliteId)
+                .orElseThrow(() -> new RuntimeException("Créneau introuvable !"));
 
         if (disponibilite.getRendezVous() != null) {
             throw new RuntimeException("Ce créneau est déjà réservé !");
         }
 
+        Patient patient = patientRepository.findByEmail(patientEmail)
+                .orElseThrow(() -> new RuntimeException("Patient introuvable !"));
+
         RendezVous rendezVous = new RendezVous();
-        rendezVous.setDateHeure(disponibilite.getDate().atTime(disponibilite.getPeriode().getHeureDebut(), 0));
+        rendezVous.setDateHeure(disponibilite.getDateHeure());
         rendezVous.setPatient(patient);
         rendezVous.setMedecin(disponibilite.getMedecin());
         rendezVous.setStatut(StatutRendezVous.CONFIRME);
         rendezVous.setDisponibilite(disponibilite);
 
+
         rendezVous = rendezVousRepository.save(rendezVous);
+
 
         disponibilite.setRendezVous(rendezVous);
         disponibiliteRepository.save(disponibilite);
@@ -93,8 +84,25 @@ public class RendezVousService {
         return rendezVous;
     }
 
-
     public List<RendezVous> findByPatientEmail(String email) {
         return null;
     }
+
+    @Transactional
+    public void annulerRendezVous(Long rendezVousId) {
+        RendezVous rendezVous = rendezVousRepository.findById(rendezVousId)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable !"));
+
+        notificationRepository.deleteByRendezVousId(rendezVousId);
+
+        Disponibilite disponibilite = rendezVous.getDisponibilite();
+        disponibilite.setRendezVous(null);
+        disponibiliteRepository.save(disponibilite);
+
+        rendezVousRepository.delete(rendezVous);
+
+        notificationService.creerNotificationAnnulation(rendezVous);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package Episante.back.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Medecin {
 
     @Enumerated(EnumType.STRING)
     private Specialite specialite;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Disponibilite> disponibilites;
 

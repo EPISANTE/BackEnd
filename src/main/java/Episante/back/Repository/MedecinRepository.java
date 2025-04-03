@@ -11,4 +11,6 @@ public interface MedecinRepository extends JpaRepository<Medecin, Long> {
 
 
     List<Medecin> findBySpecialite(Specialite specialite);
+
+
 }
