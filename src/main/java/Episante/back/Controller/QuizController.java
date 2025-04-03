@@ -19,7 +19,7 @@ public class QuizController {
         if (question != null) {
             return ResponseEntity.ok(question);
         } else {
-            return ResponseEntity.noContent().build(); // No more questions
+            return ResponseEntity.noContent().build();
         }
     }
 

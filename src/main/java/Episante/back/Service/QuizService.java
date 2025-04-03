@@ -26,7 +26,7 @@ public class QuizService {
         if (currentQuestionIndex < questions.size()) {
             return questions.get(currentQuestionIndex++);
         }
-        return null; // No more questions
+        return null;
     }
 
     public void submitAnswer(Long questionId, String answer) {
@@ -178,7 +178,6 @@ public class QuizService {
 
     public boolean hasMoreQuestions() {
         if (questions == null || questions.isEmpty()) {
-            questions = questionRepository.findAll(); // Load from DB if not initialized
         }
         return currentQuestionIndex < questions.size();
     }
