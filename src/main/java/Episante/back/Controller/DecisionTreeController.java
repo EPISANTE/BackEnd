@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/decision-tree")
-@CrossOrigin(origins = "*")
+
 public class DecisionTreeController {
 
     @Autowired
