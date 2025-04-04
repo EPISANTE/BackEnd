@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DEPLOY_USER = 'ayoubroot'
-        DEPLOY_HOST = '172.31.252.17'
+        DEPLOY_HOST = '172.31.253.222'
         DEPLOY_PATH = 'EpiSanteBack'
         JAR_PATH = 'target/*.jar'
     }
