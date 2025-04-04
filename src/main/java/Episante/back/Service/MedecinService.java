@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,13 +81,14 @@ public class MedecinService {
 
 
                     for (Periode creneau : Periode.values()) {
-                        LocalDateTime dateHeure = LocalDateTime.of(currentDate, creneau.getHeureDebut());
+                        LocalDate d = LocalDate.ofEpochDay(creneau.getHeureDebut());
+                        LocalDateTime dateHeure = LocalDateTime.of(currentDate, LocalTime.from(d));
 
 
-                        if ((creneau.getHeureDebut().isAfter(LocalTime.of(8, 59))
-                                && (creneau.getHeureDebut().isBefore(LocalTime.of(12, 1))
-                                || (creneau.getHeureDebut().isAfter(LocalTime.of(13, 59))
-                                && (creneau.getHeureDebut().isBefore(LocalTime.of(17, 31))))))) {
+                        if ((d.isAfter(ChronoLocalDate.from(LocalTime.of(8, 59)))
+                                && (d.isBefore(ChronoLocalDate.from(LocalTime.of(12, 1)))
+                                || (d.isAfter(ChronoLocalDate.from(LocalTime.of(13, 59)))
+                                && (d.isBefore(ChronoLocalDate.from(LocalTime.of(17, 31)))))))) {
 
                             if (disponibiliteRepository.findByMedecinAndDateHeure(medecin, dateHeure).isEmpty()) {
                                 Disponibilite dispo = new Disponibilite(dateHeure, jour, medecin);
