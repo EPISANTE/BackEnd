@@ -1,4 +1,4 @@
-package Episante.back;
+package Episante.back.test;
 
 import java.util.Scanner;
 
