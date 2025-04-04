@@ -1,5 +1,4 @@
 package Episante.back.Controller;
-
 import Episante.back.Service.DiagnosticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,23 +1,29 @@
 package Episante.back.Controller;
 
+import Episante.back.DTO.DisponibiliteDTO;
+import Episante.back.DTO.MedecinDTO;
 import Episante.back.Models.Disponibilite;
 import Episante.back.Models.JourSemaine;
 import Episante.back.Models.Medecin;
 import Episante.back.Models.Specialite;
+import Episante.back.Repository.MedecinRepository;
 import Episante.back.Service.MedecinService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/medecins")
 public class MedecinController {
     private final MedecinService medecinService;
+    private final MedecinRepository medecinRepository;
 
-    public MedecinController(MedecinService medecinService) {
+    public MedecinController(MedecinService medecinService, MedecinRepository medecinRepository) {
         this.medecinService = medecinService;
+        this.medecinRepository = medecinRepository;
     }
 
     @GetMapping("/{id}")
@@ -36,8 +42,34 @@ public class MedecinController {
     }
 
     @GetMapping("/specialite/{specialite}")
-    public ResponseEntity<List<Medecin>> getMedecinsParSpecialite(@PathVariable Specialite specialite) {
-        return ResponseEntity.ok(medecinService.getMedecinsParSpecialite(specialite));
+    public ResponseEntity<List<MedecinDTO>> getMedecinsParSpecialite(@PathVariable String specialite) {
+        try {
+            Specialite specialiteEnum = Specialite.valueOf(specialite.toUpperCase());
+
+            List<Medecin> medecins = medecinRepository.findBySpecialite(specialiteEnum);
+
+            List<MedecinDTO> dtos = medecins.stream()
+                    .map(medecin -> new MedecinDTO(
+                            medecin.getId(),
+                            medecin.getNom(),
+                            medecin.getSpecialite().name(),
+                            medecin.getDisponibilites().stream()
+                                    .map(dispo -> new DisponibiliteDTO(
+                                            dispo.getId(),
+                                            dispo.getDateHeure().toLocalDate(),
+                                            dispo.getJour().name(),
+                                            dispo.getDateHeure().toLocalTime(),
+                                            dispo.getDateHeure().toLocalTime().plusMinutes(30),
+                                            dispo.getRendezVous() != null
+                                    ))
+                                    .collect(Collectors.toList())
+                    ))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtos);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
     @GetMapping("/specialites")
     public ResponseEntity<List<String>> getAllSpecialites() {

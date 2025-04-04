@@ -5,6 +5,8 @@ import Episante.back.Repository.DisponibiliteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,9 +29,6 @@ public class MedecinService {
         return medecinRepository.findAll();
     }
 
-    public List<Medecin> getMedecinsParSpecialite(Specialite specialite) {
-        return medecinRepository.findBySpecialite(specialite);
-    }
 
     public Medecin getMedecinAvecDisponibilites(Long id) {
         return medecinRepository.findById(id)
@@ -64,24 +63,35 @@ public class MedecinService {
         List<Medecin> medecins = medecinRepository.findAll();
         if (medecins.isEmpty()) throw new RuntimeException("Pas de medecins !");
 
-        Periode[] periodes = Periode.values();
         LocalDate aujourdhui = LocalDate.now();
 
         for (Medecin medecin : medecins) {
             for (int semaine = 0; semaine < 3; semaine++) {
-                int nbDispo = 0;
+                LocalDate date = aujourdhui.plusWeeks(semaine);
 
-                while (nbDispo < 3) {
-                    LocalDate date = aujourdhui.plusWeeks(semaine).plusDays(random.nextInt(7));
-                    JourSemaine jour = JourSemaine.valueOf(date.getDayOfWeek().name());
 
-                    if (jour != JourSemaine.SATURDAY && jour != JourSemaine.SUNDAY) {
-                        Periode periode = periodes[random.nextInt(periodes.length)];
+                for (int jourOffset = 0; jourOffset < 14; jourOffset++) {
+                    LocalDate currentDate = date.plusDays(jourOffset);
+                    JourSemaine jour = JourSemaine.valueOf(currentDate.getDayOfWeek().name());
 
-                        if (disponibiliteRepository.findByMedecinAndDateAndPeriode(medecin, date, periode).isEmpty()) {
-                            Disponibilite dispo = new Disponibilite(date, jour, periode, medecin);
-                            disponibiliteRepository.saveAndFlush(dispo);
-                            nbDispo++;
+                    if (jour == JourSemaine.SATURDAY || jour == JourSemaine.SUNDAY) {
+                        continue;
+                    }
+
+
+                    for (Periode creneau : Periode.values()) {
+                        LocalDateTime dateHeure = LocalDateTime.of(currentDate, creneau.getHeureDebut());
+
+
+                        if ((creneau.getHeureDebut().isAfter(LocalTime.of(8, 59))
+                                && (creneau.getHeureDebut().isBefore(LocalTime.of(12, 1))
+                                || (creneau.getHeureDebut().isAfter(LocalTime.of(13, 59))
+                                && (creneau.getHeureDebut().isBefore(LocalTime.of(17, 31))))))) {
+
+                            if (disponibiliteRepository.findByMedecinAndDateHeure(medecin, dateHeure).isEmpty()) {
+                                Disponibilite dispo = new Disponibilite(dateHeure, jour, medecin);
+                                disponibiliteRepository.save(dispo);
+                            }
                         }
                     }
                 }

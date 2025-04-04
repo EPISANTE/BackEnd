@@ -9,3 +9,4 @@ public class DiseaseDTO {
     private String description;
     private Double probability;
 }
+

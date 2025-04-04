@@ -2,9 +2,12 @@ package Episante.back.DTO;
 
 import Episante.back.Models.Notification;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Data
+@NoArgsConstructor
 public class NotificationDTO {
     private Long id;
     private String message;
@@ -22,5 +25,4 @@ public class NotificationDTO {
         this.specialite = notification.getRendezVous().getMedecin().getSpecialite().name();
         this.dateRdv = notification.getRendezVous().getDateHeure();
     }
-
 }
