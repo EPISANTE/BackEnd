@@ -28,29 +28,30 @@ public class RendezVousService {
     private NotificationService notificationService;
 
     /**
-     * Réserve un rendez-vous médical pour un patient sur un créneau horaire spécifique.
-     * <p>
-     * Cette méthode effectue une réservation transactionnelle avec les étapes suivantes :
-     * <ol>
-     *   <li>Vérification de l'existence du créneau et du patient</li>
-     *   <li>Contrôle des contraintes métier (doublon de rendez-vous, créneau déjà réservé)</li>
-     *   <li>Création et persistance du rendez-vous</li>
-     *   <li>Mise à jour du statut du créneau</li>
-     *   <li>Déclenchement d'une notification au patient</li>
-     * </ol>
+     * Réserve un créneau de rendez-vous pour un patient donné.
+     * Cette méthode est exécutée dans une transaction atomique.
      *
-     * @param disponibiliteId Identifiant unique du créneau horaire disponible (non null)
-     * @param patientEmail Email unique identifiant le patient (format validé)
-     * @return Le rendez-vous confirmé avec ses métadonnées complètes
-     * @throws RuntimeException avec message explicite dans les cas suivants :
-     *           <ul>
-     *             <li>Code 01 : Créneau introuvable</li>
-     *             <li>Code 02 : Patient non enregistré</li>
-     *             <li>Code 03 : Rendez-vous existant avec le même médecin</li>
-     *             <li>Code 04 : Créneau déjà réservé par un autre patient</li>
-     *           </ul>
-     * @Transactional Garantit l'intégrité des données par rollback automatique en cas d'erreur
-     * @see NotificationService#creerNotification(RendezVous) pour le flux de notification
+     * @param disponibiliteId L'identifiant unique du créneau de disponibilité à réserver
+     * @param patientEmail L'adresse email du patient effectuant la réservation
+     * @return Le rendez-vous confirmé avec toutes ses informations
+     * @throws RuntimeException avec différents messages selon les cas d'erreur :
+     *         - "Créneau introuvable !" si le créneau de disponibilité n'existe pas
+     *         - "Ce créneau est déjà réservé !" si le créneau est déjà attribué
+     *         - "Patient introuvable !" si aucun patient correspondant à l'email
+     * @throws Exception Potentielles exceptions de persistance (JPA/Hibernate) ou d'envoi de notification
+     *
+     * @implSpec Le flux d'exécution :
+     * 1. Vérification de l'existence du créneau
+     * 2. Vérification de la disponibilité du créneau
+     * 3. Recherche du patient par email
+     * 4. Création et enregistrement du rendez-vous
+     * 5. Liaison du rendez-vous au créneau de disponibilité
+     * 6. Envoi d'une notification de confirmation
+     *
+     * @implNote Les effets secondaires :
+     * - Met à jour l'entité Disponibilite avec la référence au rendez-vous
+     * - Persiste une nouvelle entité RendezVous
+     * - Déclenche une notification au patient
      */
     @Transactional
     public RendezVous reserverRendezVous(Long disponibiliteId, String patientEmail) {
