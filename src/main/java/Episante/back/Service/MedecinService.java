@@ -81,14 +81,13 @@ public class MedecinService {
 
 
                     for (Periode creneau : Periode.values()) {
-                        LocalDate d = LocalDate.ofEpochDay(creneau.getHeureDebut());
-                        LocalDateTime dateHeure = LocalDateTime.of(currentDate, LocalTime.from(d));
+                        LocalDateTime dateHeure = LocalDateTime.of(currentDate, creneau.getHeureDebut());
 
 
-                        if ((d.isAfter(ChronoLocalDate.from(LocalTime.of(8, 59)))
-                                && (d.isBefore(ChronoLocalDate.from(LocalTime.of(12, 1)))
-                                || (d.isAfter(ChronoLocalDate.from(LocalTime.of(13, 59)))
-                                && (d.isBefore(ChronoLocalDate.from(LocalTime.of(17, 31)))))))) {
+                        if ((creneau.getHeureDebut().isAfter(LocalTime.of(8, 59))
+                                && (creneau.getHeureDebut().isBefore(LocalTime.of(12, 1))
+                                || (creneau.getHeureDebut().isAfter(LocalTime.of(13, 59))
+                                && (creneau.getHeureDebut().isBefore(LocalTime.of(17, 31))))))) {
 
                             if (disponibiliteRepository.findByMedecinAndDateHeure(medecin, dateHeure).isEmpty()) {
                                 Disponibilite dispo = new Disponibilite(dateHeure, jour, medecin);
