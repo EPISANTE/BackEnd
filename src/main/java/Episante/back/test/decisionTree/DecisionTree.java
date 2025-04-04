@@ -11,38 +11,47 @@ public class DecisionTree {
         this.root = root ;
     }
 
-    public void run(){
-        Node currentNode = root ;
-        Scanner scanner = new Scanner(System.in);
+    public void run() {
+        Node currentNode = root;
 
-        while (currentNode instanceof DecisionNode){
-            DecisionNode decisionNode = (DecisionNode) currentNode ;
+        try (Scanner scanner = new Scanner(System.in)) {
 
-            System.out.println(((DecisionNode) currentNode).getQuestion() + "Yes or no ?");
-            String answer = "" ;
-            boolean validInput = false ;
-            while (!validInput){
-                answer = scanner.nextLine().trim().toLowerCase();
-                if (answer.equals("yes") || answer.equals("y")){
-                    currentNode = decisionNode.getNoBranch();
-                } else if (answer.equals("no") || answer.equals("n")) {
-                    currentNode = decisionNode.getNoBranch();
-                }else {
-                    System.out.println("Invalid Input ===> please inter yes or no");
-                    System.out.println(((DecisionNode) currentNode).getQuestion() + "Yes or no ?");
+
+            while (currentNode instanceof DecisionNode) {
+                DecisionNode decisionNode = (DecisionNode) currentNode;
+
+                System.out.println(decisionNode.getQuestion() + " (yes/no):");
+                String answer = "";
+
+
+                boolean validInput = false;
+                while (!validInput) {
+                    answer = scanner.nextLine().trim().toLowerCase();
+                    if (answer.equals("yes") || answer.equals("y")) {
+                        currentNode = decisionNode.getYesBranch();
+                        validInput = true;
+                    } else if (answer.equals("no") || answer.equals("n")) {
+                        currentNode = decisionNode.getNoBranch();
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                        System.out.println(decisionNode.getQuestion() + " (yes/no):");
+                    }
                 }
             }
-        }
 
-        if (currentNode instanceof LeafNode){
-            LeafNode leafNode = (LeafNode) currentNode ;
-            System.out.println("----------------------------------------------");
-            System.out.println("Result ==> "+ leafNode.getDecision());
-            System.out.println("----------------------------------------------");
-        }else {
-            System.err.println("Error : endded unexpectedly not a leaf node");
-        }
 
+            if (currentNode instanceof LeafNode) {
+                LeafNode leafNode = (LeafNode) currentNode;
+                System.out.println("-------------------------");
+                System.out.println("Result: " + leafNode.getDecision());
+                System.out.println("-------------------------");
+            } else {
+
+
+                System.err.println("Error: Traversal ended unexpectedly, not at a leaf node.");
+            }
+        }
     }
 
     public static void main(String[] args) {
