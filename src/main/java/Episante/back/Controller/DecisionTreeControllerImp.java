@@ -34,24 +34,23 @@ public class DecisionTreeControllerImp {
     @Getter
     @Setter
     public static class AnswerRequest {
-        private String question;
+        private String nodeId;
         private String answer;
     }
 
     @PostMapping("/answer")
     public ResponseEntity<Node> answer(@RequestBody AnswerRequest request) {
-        if (request == null || request.getQuestion() == null || request.getAnswer() == null) {
-            return ResponseEntity.badRequest().body(new LeafNode("Error: Invalid request data."));
+        if (request == null || request.getNodeId() == null || request.getNodeId().trim().isEmpty() || request.getAnswer() == null) {
+            return ResponseEntity.badRequest().body(new LeafNode("Error: Invalid request data. Missing nodeId or answer."));
         }
 
         Optional<Node> nextNodeOpt = decisionTreeService.getNextNode(
-                request.getQuestion(),
+                request.getNodeId(),
                 request.getAnswer()
         );
 
         return nextNodeOpt
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().body(new LeafNode("Error: Could not determine next step.")));
-
     }
 }

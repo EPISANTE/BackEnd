@@ -17,7 +17,7 @@ public class DecisionTreeServiceImp {
 
     private Node rootNode;
 
-    private final Map<String, DecisionNode> decisionNodeMap = new HashMap<>();
+    private final Map<String, Node> nodeMap = new HashMap<>();
 
     @PostConstruct
     public void buildTree() {
@@ -112,30 +112,88 @@ public class DecisionTreeServiceImp {
 
         this.rootNode = createDecisionNode("Do you have a fever?", node2aCough, node2bRunnyNose);
 
-        System.out.println("Decision Tree built successfully. Root: "  /* +  this.rootNode.getQuestion()    */);
+        if (this.rootNode instanceof DecisionNode) {
+            DecisionNode rootDecision = (DecisionNode) this.rootNode;
+            nodeMap.put(rootDecision.getId(), rootDecision);
+        }
+
+        System.out.println("Decision Tree built successfully. Node Map Size: "  + nodeMap.size());
+
+        if(this.rootNode instanceof DecisionNode) {
+            System.out.println("Root Node ID: " + ((DecisionNode)this.rootNode).getId());
+        }
+
+
     }
 
     private DecisionNode createDecisionNode(String question, Node yesBranch, Node noBranch) {
         DecisionNode node = new DecisionNode(question, yesBranch, noBranch);
-        decisionNodeMap.put(node.getQuestion(), node);
+        nodeMap.put(node.getId(), node);
+        addNodeToMapIfNeeded(yesBranch);
+        addNodeToMapIfNeeded(noBranch);
         return node;
     }
 
+    private void addNodeToMapIfNeeded(Node node) {
+        if (node instanceof DecisionNode) {
+            DecisionNode decisionNode = (DecisionNode) node;
+            nodeMap.putIfAbsent(decisionNode.getId(), decisionNode);
+        }
+    }
 
-    public Optional<Node> getNextNode(String currentQuestion, String answer) {
-        DecisionNode currentNode = decisionNodeMap.get(currentQuestion);
-        if (currentNode == null) {
-            System.err.println("Error: Could not find node for question: " + currentQuestion);
+
+    public Optional<Node> getNextNode(String currentNodeId, String answer) {
+        System.out.println("--- getNextNode ---");
+        System.out.println("Received Node ID: [" + currentNodeId + "]");
+        System.out.println("Received Answer: [" + answer + "]");
+
+        Node nodeFromMap = nodeMap.get(currentNodeId);
+
+        if (!(nodeFromMap instanceof DecisionNode)) {
+            System.err.println("ERROR: Node ID not found in map or node is not a DecisionNode! ID: [" + currentNodeId + "]");
+            System.err.println("Available DecisionNode IDs in map:");
+            nodeMap.entrySet().stream()
+                    .filter(entry -> entry.getValue() instanceof DecisionNode)
+                    .forEach(entry -> System.err.println("- " + entry.getKey()));
             return Optional.empty();
         }
 
+        DecisionNode currentNode = (DecisionNode) nodeFromMap;
+
+        System.out.println("Found Node: " + currentNode);
+
+        Node nextNode = null;
         if ("yes".equalsIgnoreCase(answer)) {
-            return Optional.of(currentNode.getYesBranch());
+            nextNode = currentNode.getYesBranch();
+            System.out.println("Following YES branch to -> " + nodeToString(nextNode));
         } else if ("no".equalsIgnoreCase(answer)) {
-            return Optional.of(currentNode.getNoBranch());
+            nextNode = currentNode.getNoBranch();
+            System.out.println("Following NO branch to -> " + nodeToString(nextNode));
         } else {
-            System.err.println("Error: Invalid answer received: " + answer);
+            System.err.println("ERROR: Invalid answer received: [" + answer + "]");
             return Optional.empty();
         }
+
+        if (nextNode == null) {
+            System.err.println("ERROR: Calculated nextNode is null!");
+            return Optional.empty();
+        }
+
+        return Optional.of(nextNode);
+    }
+
+    private String nodeToString(Node node) {
+        if (node instanceof LeafNode) {
+            return "Leaf: [" + ((LeafNode) node).getDecision() + "]";
+        } else if (node instanceof DecisionNode) {
+            DecisionNode dn = (DecisionNode) node;
+            return "Decision: [ID: " + dn.getId() + ", Q: " + dn.getQuestion() + "]";
+        } else {
+            return "Unknown Node Type or Null";
+        }
+    }
+
+    public Node getRootNode() {
+        return rootNode;
     }
 }
