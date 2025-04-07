@@ -106,4 +106,24 @@ public class RendezVousService {
     }
 
 
+    @Transactional
+    public RendezVous modifierRendezVous(Long ancienRendezVousId, Long nouvelleDisponibiliteId) {
+        RendezVous ancienRendezVous = rendezVousRepository.findById(ancienRendezVousId)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        Disponibilite nouvelleDispo = disponibiliteRepository.findById(nouvelleDisponibiliteId)
+                .orElseThrow(() -> new RuntimeException("Nouveau créneau introuvable"));
+
+        annulerRendezVous(ancienRendezVousId);
+
+        RendezVous nouveauRendezVous = new RendezVous();
+        nouveauRendezVous.setPatient(ancienRendezVous.getPatient());
+        nouveauRendezVous.setMedecin(ancienRendezVous.getMedecin());
+        nouveauRendezVous.setDisponibilite(nouvelleDispo);
+        nouveauRendezVous.setDateHeure(nouvelleDispo.getDateHeure());
+
+        return rendezVousRepository.save(nouveauRendezVous);
+    }
+
+
 }
