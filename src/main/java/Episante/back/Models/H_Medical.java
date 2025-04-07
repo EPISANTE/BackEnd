@@ -17,14 +17,13 @@ public class H_Medical {
     @OneToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    @ManyToMany(fetch = FetchType.LAZY) // Added FetchType.LAZY (good practice)
-    // Removed @JoinColumn
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "h_medical_antecedants",  // CHOOSE the actual name of your join table
-            joinColumns = @JoinColumn(name = "h_medical_patient_id"), // Column in join table pointing to H_Medical's PK (which is patient_id)
-            inverseJoinColumns = @JoinColumn(name = "antecedant_id") // Column in join table pointing to Antecedant's PK
+            name = "h_medical_antecedants",
+            joinColumns = @JoinColumn(name = "h_medical_patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "antecedant_id")
     )
-    // Consider using Set<Antecedant> instead of List<Antecedant> for ManyToMany
+
     private List<Antecedant> antecedantList = new ArrayList<>();
 
 
