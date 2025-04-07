@@ -1,5 +1,6 @@
 package Episante.back.Controller;
 
+import Episante.back.DTO.ModificationRendezVousRequest;
 import Episante.back.Models.RendezVous;
 import Episante.back.Service.RendezVousService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,13 @@ public class RendezVousController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
+    @PostMapping("/rendezvous/{id}/modifier")
+    public ResponseEntity<RendezVous> modifierRendezVous(
+            @PathVariable Long id,
+            @RequestBody ModificationRendezVousRequest request
+    ) {
+        return ResponseEntity.ok(rendezVousService.modifierRendezVous(id, request.getNouvelleDisponibiliteId()));
+    }
 
 }
 
