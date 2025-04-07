@@ -2,7 +2,7 @@ package Episante.back.Service;
 
 import Episante.back.Models.Patient;
 import Episante.back.Models.Sexe;
-import Episante.back.Repository.IPatientrepository; // Import repository interface
+import Episante.back.Repository.IPatientrepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,7 @@ class PatientServiceTest {
 
         assertThat(bilan).isNotNull();
         assertThat(bilan).contains("Bonjour TestPrenom TestNom");
-        assertThat(bilan).contains("votre IMC est 22.86"); // Check formatted BMI
+        assertThat(bilan).contains("votre IMC est 22.86");
         assertThat(bilan).contains("poids normal");
     }
 
@@ -90,7 +90,7 @@ class PatientServiceTest {
     void bilanS_InvalidInput_ThrowsIllegalArgumentException() {
         testPatient.setPoids("seventy");
 
-        assertThatThrownBy(() -> patientService.BilanS(testPatient)) // Use AssertJ's exception assertion
+        assertThatThrownBy(() -> patientService.BilanS(testPatient))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Les valeurs de poids, taille ou âge sont invalides");
     }
