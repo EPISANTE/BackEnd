@@ -1,6 +1,7 @@
 package Episante.back.Repository;
 
 import Episante.back.Models.Notification;
+import Episante.back.Models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
 
 
     Collection<Object> findByPatientEmail(String email);
+
+    List<Notification> getNotificationByPatient(Patient patient);
 }
