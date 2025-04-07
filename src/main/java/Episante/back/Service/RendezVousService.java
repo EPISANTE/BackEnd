@@ -95,8 +95,27 @@ public class RendezVousService {
                 .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable !"));
 
 
-        Notification n = (Notification) notificationRepository.getByRendezVous_Id(rendezVousId);
-        notificationRepository.deleteById(n.getId());
+
+        //notificationRepository.deleteById(notificationRepository.getByRendezVous_Id(rendezVousId).getFirst().getId());
+
+        List<Notification> notifications = notificationRepository.getByRendezVous_Id(rendezVousId);
+
+        if (notifications != null && !notifications.isEmpty()) {
+            Notification firstNotification = notifications.get(0);
+
+            Long notificationIdToDelete = firstNotification.getId();
+
+
+            if (notificationIdToDelete != null) {
+                notificationRepository.deleteById(notificationIdToDelete);
+                System.out.println("Deleted notification with ID: " + notificationIdToDelete);
+            } else {
+                System.err.println("Could not delete notification as the first one had a null ID for RendezVous ID: " + rendezVousId);
+            }
+
+        } else {
+            System.out.println("No notifications found for RendezVous ID: " + rendezVousId + ". Nothing to delete.");
+        }
 
         Disponibilite disponibilite = rendezVous.getDisponibilite();
         disponibiliteRepository.save(disponibilite);
