@@ -17,9 +17,7 @@ public class H_Medical {
     @OneToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    @ManyToMany
-    @JoinColumn(name = "antecedant_id")
-    private List<Antecedant> antecedantList = new ArrayList<>();
+
 
 
 
