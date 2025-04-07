@@ -175,7 +175,7 @@ class DecisionTreeServiceImpTest {
         Node expectedLeaf = node6aContact.getNoBranch();
 
 
-        Optional<Node> resultOpt = decisionTreeService.getNextNode(nodeId, "no");
+        Optional<Node> resultOpt = decisionTreeService.getNextNode(nodeId, "yes");
 
 
         assertThat(resultOpt).isPresent();
