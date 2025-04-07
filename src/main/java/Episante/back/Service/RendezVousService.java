@@ -97,7 +97,6 @@ public class RendezVousService {
         notificationRepository.deleteByRendezVousId(rendezVousId);
 
         Disponibilite disponibilite = rendezVous.getDisponibilite();
-        disponibilite.setRendezVous(null);
         disponibiliteRepository.save(disponibilite);
 
         rendezVousRepository.delete(rendezVous);
