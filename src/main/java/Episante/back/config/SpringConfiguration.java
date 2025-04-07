@@ -17,6 +17,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
                         "http://192.168.1.3:5173"
 
                 )
+                .allowedHeaders("*")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
