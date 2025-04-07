@@ -17,14 +17,23 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh './mvnw test'
+            }
+        }
+
         stage('Build') {
             steps {
+                echo 'Building application...'
                 sh './mvnw clean package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
+                echo 'Deploying to server...'
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
