@@ -44,8 +44,7 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
     public List<Notification> getNotificationsByPatient(Long patientId) {
-        PatientService patientService = new PatientService();
-        return notificationRepository.getNotificationByPatient(patientService.getById(patientId));
+        return notificationRepository.findByPatientId(patientId);
     }
 
     public void creerNotificationAnnulation(RendezVous rendezVous) {

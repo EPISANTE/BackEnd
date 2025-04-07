@@ -28,7 +28,7 @@ import java.util.Optional;
             return patientDao.findAll();
         }
 
-        public Patient getById(long id) {
+        public Optional<Patient> getById(long id) {
             return patientDao.findById(id);
         }
 
