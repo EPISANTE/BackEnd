@@ -39,7 +39,7 @@ public class NotificationService {
     public List<NotificationDTO> getNotificationsByPatientEmail(String email) {
         return notificationRepository.findByPatientEmail(email)
                 .stream()
-                .map(notification -> new NotificationDTO(notification))
+                .map(notification -> new NotificationDTO((Notification) notification))
                 .sorted(Comparator.comparing(NotificationDTO::getDateRdv))
                 .collect(Collectors.toList());
     }
