@@ -74,7 +74,7 @@ class DecisionTreeServiceImpTest {
         Node expectedNextNode = rootDecisionNode.getYesBranch();
 
 
-        Optional<Node> actualNextNodeOpt = decisionTreeService.getNextNode(rootId, "yes");
+        Optional<Node> actualNextNodeOpt = decisionTreeService.getNextNode(rootId, "no");
 
 
         assertThat(actualNextNodeOpt).isPresent();
