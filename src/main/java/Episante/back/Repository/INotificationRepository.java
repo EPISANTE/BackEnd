@@ -19,5 +19,5 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
     void deleteByRendezVousId(@Param("rendezVousId") Long rendezVousId);
 
 
-
+    List<Notification> getByRendezVous_Id(Long rendezVousId);
 }
