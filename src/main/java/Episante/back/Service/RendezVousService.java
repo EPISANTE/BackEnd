@@ -95,8 +95,8 @@ public class RendezVousService {
                 .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable !"));
 
 
-
-        notificationRepository.deleteById(notificationRepository.getByRendezVous_Id(rendezVousId).getFirst().getId());
+        Notification n = (Notification) notificationRepository.getByRendezVous_Id(rendezVousId);
+        notificationRepository.deleteById(n.getId());
 
         Disponibilite disponibilite = rendezVous.getDisponibilite();
         disponibiliteRepository.save(disponibilite);
