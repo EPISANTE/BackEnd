@@ -10,11 +10,9 @@ public class SpringConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        "http://localhost:5174",
                         "http://localhost:5173",
                         "http://172.31.250.99:5173",
-                        "http://172.31.250.99:3000",
-                        "http://192.168.1.3:5173"
+                        "http://172.31.250.99:3000"
 
                 )
                 .allowedHeaders("*")

@@ -77,9 +77,7 @@ class RendezVousServiceTest {
 
         when(notificationRepository.getByRendezVous_Id(testRendezVousId)).thenReturn(List.of(testNotification));
 
-
         when(disponibiliteRepository.save(any(Disponibilite.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
 
         rendezVousService.annulerRendezVous(testRendezVousId);
 
