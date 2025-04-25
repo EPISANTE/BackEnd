@@ -1,0 +1,508 @@
+{
+  "type": "decision",
+  "question": "Do you have a fever? (yes/no)",
+  "yesBranch": {
+    "type": "decision",
+    "question": "Do you have a cough? (yes/no)",
+    "yesBranch": {
+      "type": "decision",
+      "question": "Do you have shortness of breath? (yes/no)",
+      "yesBranch": {
+        "type": "decision",
+        "question": "Have you experienced loss of taste or smell? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have fatigue? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have you been in contact with someone who tested positive for COVID-19? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Highly likely COVID-19"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible COVID-19"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have you been in contact with someone who tested positive for COVID-19? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible COVID-19"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely COVID-19 (milder presentation)"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have body aches? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Did your symptoms start suddenly? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Flu"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other viral infection"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Do you have a headache? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu or other"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            }
+          }
+        }
+      },
+      "noBranch": {
+        "type": "decision",
+        "question": "Do you have body aches? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Did your symptoms start suddenly? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Do you have chills? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Highly likely Flu"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Flu"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Do you have chills? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Flu"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu or other"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have a sore throat? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged viral infection"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu or other"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      }
+    },
+    "noBranch": {
+      "type": "decision",
+      "question": "Do you have body aches? (yes/no)",
+      "yesBranch": {
+        "type": "decision",
+        "question": "Do you have a headache? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have fatigue? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Did your symptoms start suddenly? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Flu"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other viral infection"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Did your symptoms start suddenly? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have a sore throat? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged viral infection"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu or other"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      },
+      "noBranch": {
+        "type": "decision",
+        "question": "Do you have a sore throat? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have sneezing? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged Cold"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Common Cold"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild viral infection"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have fatigue? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Do you have a headache? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other viral infection"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild condition"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Do you have a headache? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      }
+    }
+  },
+  "noBranch": {
+    "type": "decision",
+    "question": "Do you have a runny nose? (yes/no)",
+    "yesBranch": {
+      "type": "decision",
+      "question": "Do you have a sore throat? (yes/no)",
+      "yesBranch": {
+        "type": "decision",
+        "question": "Do you have sneezing? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have fatigue? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged Cold"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely Common Cold"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged Cold"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Highly likely Common Cold"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have a headache? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged viral infection"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Common Cold or mild condition"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely Common Cold"
+            }
+          }
+        }
+      },
+      "noBranch": {
+        "type": "decision",
+        "question": "Do you have sneezing? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have fatigue? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged Cold"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Common Cold"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged mild condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely Common Cold"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have a headache? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild viral infection"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      }
+    },
+    "noBranch": {
+      "type": "decision",
+      "question": "Do you have fatigue? (yes/no)",
+      "yesBranch": {
+        "type": "decision",
+        "question": "Do you have a headache? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have body aches? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged viral infection"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild Flu or other"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild viral infection"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have a sore throat? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged mild condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild viral infection"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      },
+      "noBranch": {
+        "type": "decision",
+        "question": "Do you have a headache? (yes/no)",
+        "yesBranch": {
+          "type": "decision",
+          "question": "Do you have a sore throat? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged mild condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild viral infection"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible mild condition"
+            }
+          }
+        },
+        "noBranch": {
+          "type": "decision",
+          "question": "Do you have sneezing? (yes/no)",
+          "yesBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible prolonged Cold"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible Common Cold"
+            }
+          },
+          "noBranch": {
+            "type": "decision",
+            "question": "Have your symptoms lasted more than 10 days? (yes/no)",
+            "yesBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Possible other condition"
+            },
+            "noBranch": {
+              "type": "leaf",
+              "decision": "Diagnosis: Likely not a viral infection"
+            }
+          }
+        }
+      }
+    }
+  }
+}
