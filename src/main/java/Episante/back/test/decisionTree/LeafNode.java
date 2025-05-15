@@ -1,11 +1,9 @@
 package Episante.back.test.decisionTree;
 
-import org.hibernate.boot.model.source.spi.IdentifierSource;
-
 import java.util.Objects;
 
 public class LeafNode extends Node{
-    final String decision;
+    final String decision;// final decision
 
     public LeafNode (String decision){
         Objects.requireNonNull(decision , "Decision should be not null");

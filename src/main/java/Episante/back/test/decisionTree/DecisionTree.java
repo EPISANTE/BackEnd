@@ -5,11 +5,12 @@ import java.util.Scanner;
 
 public class DecisionTree {
 
-    Node root ;
+    Node root ;// the root node of our decision tree
     public DecisionTree(Node root){
         Objects.requireNonNull(root,"The root node cannot be null");
         this.root = root ;
     }
+    // until this point our decision tree has only the root node
 
     public void run() {
         Node currentNode = root;
@@ -17,7 +18,7 @@ public class DecisionTree {
         try (Scanner scanner = new Scanner(System.in)) {
 
 
-            while (currentNode instanceof DecisionNode) {
+            while (currentNode instanceof DecisionNode) { // do this code until the current node is leaf or null maybe
                 DecisionNode decisionNode = (DecisionNode) currentNode;
 
                 System.out.println(decisionNode.getQuestion() + " (yes/no):");
@@ -25,7 +26,7 @@ public class DecisionTree {
 
 
                 boolean validInput = false;
-                while (!validInput) {
+                while (!validInput) { // execute the code in the while loop until the validInput == true
                     answer = scanner.nextLine().trim().toLowerCase();
                     if (answer.equals("yes") || answer.equals("y")) {
                         currentNode = decisionNode.getYesBranch();
@@ -35,13 +36,13 @@ public class DecisionTree {
                         validInput = true;
                     } else {
                         System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-                        System.out.println(decisionNode.getQuestion() + " (yes/no):");
+                        System.out.println(decisionNode.getQuestion() + " (yes/no):"); // ask again
                     }
                 }
             }
 
 
-            if (currentNode instanceof LeafNode) {
+            if (currentNode instanceof LeafNode) { // which mean the finale decision ==> the result
                 LeafNode leafNode = (LeafNode) currentNode;
                 System.out.println("-------------------------");
                 System.out.println("Result: " + leafNode.getDecision());

@@ -1,7 +1,7 @@
-package Episante.back.test;
+package Episante.back.test.linkedList;
 
 public class LinkedList {
-    Nodes head ;
+    Node head ;
 
     LinkedList(){
         this.head = null ;

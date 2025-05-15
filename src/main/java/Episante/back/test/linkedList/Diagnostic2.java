@@ -1,10 +1,10 @@
-package Episante.back.test ;
+package Episante.back.test.linkedList;
 
 public class Diagnostic2 {
     public static void main(String[] args) {
-        Nodes node1 = new Nodes("Do you have a fever ?") ;
-        Nodes node2 = new Nodes("Do you have fatigue ?") ;
-        Nodes node3 = new Nodes("Do you have a covide ?") ;
+        Node node1 = new Node("Do you have a fever ?") ;
+        Node node2 = new Node("Do you have fatigue ?") ;
+        Node node3 = new Node("Do you have a covide ?") ;
 
         // so in this point i have        |str1, null |       |str2, null |         |str3, null |
 
@@ -16,7 +16,7 @@ public class Diagnostic2 {
 
         // now we have       |Head=node1|---->|node2|---->|node3|
 
-        Nodes currentNode = linkedList.head ;
+        Node currentNode = linkedList.head ;
         while (currentNode != null){
             System.out.print(currentNode.nodeText + "------>");
             currentNode = currentNode.next ;
