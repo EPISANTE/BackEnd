@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: epiSante
+    restart: unless-stopped
+    environment:
+      - JDK_ENV=production
+      - PORT=9090
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/Episante?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "9090:9090"
+    networks:
+      - episante-network
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0.42-oracle
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: Episante
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: episante_user
+      MYSQL_PASSWORD: episante_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - episante-network
+
+networks:
+  episante-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
